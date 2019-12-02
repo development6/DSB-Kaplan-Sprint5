@@ -297,7 +297,7 @@
 
 
 
-    <!--
+    
 
     <style>
         .caja {
@@ -311,32 +311,25 @@
     <br />
     <br />
 
-    Género:
-    <select id="ddlGenero1">
-        <option value="1">Masculino</option>
-        <option value="2">Femenino</option>
-
+    Indicador:
+    <select id="ddlIndicador">
+        <option value="30701">30701</option>
+        <option value="30702">30702</option>
+        <option value="30718">30718</option>
+        <option value="180302">180302</option>
+        <option value="1803">1803</option>
+        <option value="180304">180304</option>
+        <option value="181306">181306</option>
+        <option value="181305">181305</option>
+        <option value="181307">181307</option>
     </select>
-    Riesgo:
-    <select id="ddlRiesgo2">
-        <option value="Alta">Alta</option>
-        <option value="Moderado">Moderado</option>
-
-    </select>
-    Fecha:
-    <select id="ddlFecha1">
-        <option value="2019-01-14">2019-01-14</option>
-        <option value="2019-02-19">2019-02-19</option>
-        <option value="2019-03-21">2019-03-21</option>
-        <option value="2019-04-04">2019-04-04</option>
-        <option value="2019-04-15">2019-04-15</option>
-
-    </select>
+    
+   
     <input id="button" type="button" value="Mostrar" />
     <table id="rblChartType2" border="0">
         <tr>
             <td><input type="radio" name="ChartType2" value="1" checked="checked" />Bar</td>
-            <td><input type="radio" name="ChartType2" value="2" />Radar</td>
+            <!--<td><input type="radio" name="ChartType2" value="2" />Radar</td>-->
         </tr>
     </table>
     <div id="dvChart2" style="width:50%; position:relative;">
@@ -344,15 +337,10 @@
     <div id="dvMensaje"></div>
 
 
-    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
-    <script src="//cdn.jsdelivr.net/excanvas/r3/excanvas.js" type="text/javascript"></script>
-    <script src="//cdn.jsdelivr.net/chart.js/0.2/Chart.js" type="text/javascript"></script>
-
 
     <script type="text/javascript">
 
         $(function () {
-            LoadChart2();
             /*$("#ddlGenero1", "#ddlRiesgo2", "#ddlFecha1").bind("change", function () {
                 LoadChart2();
             });*/
@@ -365,39 +353,38 @@
         });
         function LoadChart2() {
             var chartType2 = parseInt($("#rblChartType2 input:checked").val());
-            var ingreso = [];
-            var egreso = [];
+            var inicio = [];
+            var final = [];
+            var label = [];
             var datachart2 = {
-                labels: ["Vol", "Voml", "Fcmax", "Pulso", "Ve", "Mets"],
+                labels: label,
                 datasets: [
                     {
-                        label: "Ingreso",
+                        label: "Inicio",
                         backgroundColor: "rgba(90,193,208,0.3)",
                         borderColor: "rgba(151,187,205,0.7)",
                         borderWidth: 1,
                         hoverBackgroundColor: "rgba(151,187,205,1)",
                         hoverBorderColor: "rgba(151,187,205,0.5)",
-                        data: ingreso
+                        data: inicio
                     },
                     {
-                        label: "Egreso",
+                        label: "Final",
                         backgroundColor: "rgba(215,220,67,0.3)",
                         borderColor: "rgba(220,220,220,0.7)",
                         borderWidth: 1,
                         hoverBackgroundColor: "rgba(220,220,220,1)",
                         hoverBorderColor: "rgba(220,220,220,0.5)",
-                        data: egreso
+                        data: final
                     }
                 ]
             };
-            var genero = $("#ddlGenero1").val();
-            var riesgo = $("#ddlRiesgo2").val();
-            var fecha = $("#ddlFecha1").val();
+            
 
             $.ajax({
                 type: "POST",
                 url: "/Home/AjaxMethod2",
-                data: "{Genero: '" + genero + "', Riesgo: '" + riesgo + "', Fecha: '" + fecha + "'}",
+                data: "{Indicador: '" + $("#ddlIndicador").val() + "'}",
                 //data: "{Genero: '" + $("#ddlGenero").val() + "'}",
                 contentType: "application/json; charset=utf-8",
                 dataType: "text",
@@ -434,8 +421,9 @@
                     }
 
                     for (var i = 0; i < data.length; i++) {
-                        ingreso.push(data[i].value0, data[i].value1, data[i].value2, data[i].value3, data[i].value4, data[i].value5);
-                        egreso.push(data[i].value6, data[i].value7, data[i].value8, data[i].value9, data[i].value10, data[i].value11);
+                        label.push(data[i].value0);
+                        inicio.push(data[i].value1);
+                        final.push(data[i].value2);
                     }
 
 
@@ -454,7 +442,7 @@
                                 options: {
                                     title: {
                                         display: true,
-                                        text: "Ergometría promedio"
+                                        text: "Indicador promedio"
                                     },
                                     scales: {
                                         yAxes: [
@@ -485,7 +473,7 @@
                                 options: {
                                     title: {
                                         display: true,
-                                        text: "Ergometría promedio"
+                                        text: "Indicador promedio"
                                     }
                                 }
                             });
@@ -513,7 +501,7 @@
 
 
 
-
+    <!--
 
     <table id="rblChartType3" border="0" style="position:absolute; top: 440px; left:730px">
         <tr>

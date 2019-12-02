@@ -79,5 +79,52 @@ namespace Enfermeria.Controllers
 
 
 
+
+
+        [HttpPost]
+        public ContentResult AjaxMethod2(string indicador)
+        {
+            string query = "select @Indicador, AVG(FE_Indicadores.inicio), AVG(FE_Indicadores.final)";
+            query += "from FE_Indicadores where FE_Indicadores.indicador = @Indicador";
+            //string query = "select K.ergo_vol_ing, K.ergo_voml_ing, K.ergo_fcmax_ing, K.ergo_vol_egr, K.ergo_voml_egr, K.ergo_fcmax_egr, COUNT(K.id_ficha_kine)";
+            //query += "FROM Ficha_Kinesiologia K, Ficha F, Paciente Pa Where K.id_ficha = F.id_ficha And F.id_paciente ='" + paciente + "'group by K.ergo_vol_ing, K.ergo_voml_ing, K.ergo_fcmax_ing, K.ergo_vol_egr, K.ergo_voml_egr, K.ergo_fcmax_egr";
+
+            string constr = ConfigurationManager.ConnectionStrings["ConexionKaplan"].ConnectionString;
+            StringBuilder sb = new StringBuilder();
+            using (SqlConnection con = new SqlConnection(constr))
+            {
+                using (SqlCommand cmd = new SqlCommand(query))
+                {
+                    cmd.CommandType = CommandType.Text;
+                    cmd.Connection = con;
+                    cmd.Parameters.AddWithValue("@Indicador", indicador);
+                    con.Open();
+                    using (SqlDataReader sdr = cmd.ExecuteReader())
+                    {
+                        sb.Append("[");
+
+                        while (sdr.Read())
+                        {
+                            sb.Append("{");
+                            System.Threading.Thread.Sleep(50);
+                            string color = String.Format("#{0:X6}", new Random().Next(0x1000000));
+                            sb.Append(string.Format("value0:{0},value1:{1},value2:{2}", sdr[0], sdr[1], sdr[2]));
+                            sb.Append("},");
+                        }
+
+                        sb = sb.Remove(sb.Length - 1, 1);
+                        sb.Append("]");
+
+                    }
+
+                    con.Close();
+                }
+            }
+
+            return Content(sb.ToString());
+        }
+
+
+
     }
 }
