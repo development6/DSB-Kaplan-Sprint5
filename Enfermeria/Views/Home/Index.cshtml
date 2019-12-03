@@ -123,6 +123,64 @@
     </table>
 
 
+    <br/>
+    <br/>
+    <table border=1 cellspacing="0">
+        <tr>
+            <th colspan="9">Factores de riesgo</th>
+        </tr>
+        <tr>
+            <th>HTA</th>
+            <th>DM</th>
+            <th>DLP</th>
+            <th>SED</th>
+            <th>SP/OB</th>
+            <th>TB</th>
+            <th>OH</th>
+            <th>AF</th>
+            <th>Estrés</th>
+        </tr>
+        <tr>
+            <td>
+                <div id="dvHTA" align="center">
+                </div>
+            </td>
+            <td>
+                <div id="dvDM" align="center">
+                </div>
+            </td>
+            <td>
+                <div id="dvDLP" align="center">
+                </div>
+            </td>
+            <td>
+                <div id="dvSED" align="center">
+                </div>
+            </td>
+            <td>
+                <div id="dvSPOB" align="center">
+                </div>
+            </td>
+            <td>
+                <div id="dvTB" align="center">
+                </div>
+            </td>
+            <td>
+                <div id="dvOH" align="center">
+                </div>
+            </td>
+            <td>
+                <div id="dvAF" align="center">
+                </div>
+            </td>
+            <td>
+                <div id="dvEstres" align="center">
+                </div>
+            </td>
+        </tr>
+        
+    </table>
+
 
 
 
@@ -141,11 +199,14 @@
 
         $(function () {
             LoadChart();
+            LoadChartFact();
             $("#ddlPaciente").bind("change", function () {
                 LoadChart();
+                LoadChartFact();
             });
             $("#rblChartType input").bind("click", function () {
                 LoadChart();
+                LoadChartFact();
             });
         });
         function LoadChart() {
@@ -289,6 +350,61 @@
 
             });
         }
+
+
+        function LoadChartFact() {
+            $.ajax({
+                type: "POST",
+                url: "/Home/AjaxMethod1_1",
+                data: "{Paciente: '" + $("#ddlPaciente").val() + "'}",
+                contentType: "application/json; charset=utf-8",
+                dataType: "text",
+                success: function (response) {
+                    $("#dvHTA").html("");
+                    $("#dvDM").html("");
+                    $("#dvDLP").html("");
+                    $("#dvSED").html("");
+                    $("#dvSPOB").html("");
+                    $("#dvTB").html("");
+                    $("#dvOH").html("");
+                    $("#dvAF").html("");
+                    $("#dvEstres").html("");
+
+                    var temp = [];
+                    //window.alert(response);
+
+                    var data = eval(response);
+                    for (var i = 0; i < data.length; i++) {
+                        temp.push(data[i].text0, data[i].text1, data[i].text2, data[i].text3, data[i].text4, data[i].text5, data[i].text6, data[i].text7, data[i].text8);
+                        
+                    }
+                    $("#dvHTA").append(temp[0]);
+                    $("#dvDM").append(temp[1]);
+                    $("#dvDLP").append(temp[2]);
+                    $("#dvSED").append(temp[3]);
+                    $("#dvSPOB").append(temp[4]);
+                    $("#dvTB").append(temp[5]);
+                    $("#dvOH").append(temp[6]);
+                    $("#dvAF").append(temp[7]);
+                    $("#dvEstres").append(temp[8]);
+                    
+                    //window.alert("hola");
+
+                    var el = document.createElement('canvas');
+                    $("#dvChart2")[0].appendChild(el);
+
+                    //Fix for IE 8
+                    if ($.browser.msie && $.browser.version == "8.0") {
+                        G_vmlCanvasManager.initElement(el);
+                    }
+                    
+                },
+                failure: function (response) {
+                    alert('Ocurrio un error.');
+                }
+            });
+        }
+
 
     </script>
 
