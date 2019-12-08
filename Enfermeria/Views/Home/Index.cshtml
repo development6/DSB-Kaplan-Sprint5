@@ -45,7 +45,7 @@
     <table id="rblChartType" border="0">
         <tr>
             <td><input type="radio" name="ChartType" value="1" checked="checked" />Barra</td>
-            <!--<td><input type="radio" name="ChartType" value="2" />Lineal</td>-->
+            <td><input type="radio" name="ChartType" value="2" />Radar</td>
         </tr>
     </table>
     <!--<div id="dvChart" style="width:50%; position:relative;">
@@ -69,7 +69,7 @@
                 <table border=1 cellspacing="0" width="300" align="center">
                     <thead>
                         <tr>
-                            <th colspan="3">Glosa</th>
+                            <th colspan="3" align="center">Glosa</th>
                         </tr>
                         <tr>
                             <th>Código</th>
@@ -125,9 +125,9 @@
 
     <br/>
     <br/>
-    <table border=1 cellspacing="0">
+    <table widh="700" border=1 cellspacing="0">
         <tr>
-            <th colspan="9">Factores de riesgo</th>
+            <th colspan="9" align="center">Factores de riesgo</th>
         </tr>
         <tr>
             <th>HTA</th>
@@ -253,7 +253,7 @@
                     $("#dvChartIndicadores")[0].appendChild(el);
 
 
-                    //window.alert(data);
+                    //window.alert(final);
                     //Fix for IE 8
                     if ($.browser.msie && $.browser.version == "8.0") {
                         G_vmlCanvasManager.initElement(el);
@@ -265,6 +265,7 @@
                         final.push(data[i].value2);
 
                     }
+                    
 
                     //console.log(ingreso);
                     //window.alert(ingreso);
@@ -637,6 +638,7 @@
         <tr>
             <td><input type="radio" name="ChartType3" value="1" checked="checked" />Bar</td>
             <td><input type="radio" name="ChartType3" value="2" />Radar</td>
+            <td><font size="4"><strong> Total pacientes: <font size="4" id="dvTotal"></font></strong></font></td>
         </tr>
     </table>
 
@@ -710,12 +712,14 @@
                         G_vmlCanvasManager.initElement(el);
                     }
 
+                    var cantidad_personas = [];
                     for (var i = 0; i < data.length; i++) {
                         label.push(data[i].value0);
                         inicio.push(data[i].value1);
                         final.push(data[i].value2);
-
+                        cantidad_personas.push(data[i].value3);
                     }
+                    $("#dvTotal").append(cantidad_personas[0]);
 
                     //console.log(ingreso);
                     //window.alert(ingreso);
