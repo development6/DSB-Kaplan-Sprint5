@@ -177,7 +177,7 @@ namespace Enfermeria.Controllers
         public ContentResult AjaxMethod3()
         {
             string query = "select FE_Indicadores.indicador, AVG(FE_Indicadores.inicio), AVG(FE_Indicadores.final), COUNT(id_ficha_enf)";
-            query += "from FE_Indicadores GROUP by FE_Indicadores.indicador";
+            query += "from FE_Indicadores where indicador is NOT NULL Or inicio is NOT NULL Or final is NOT NULL GROUP by FE_Indicadores.indicador";
             //string query = "select K.ergo_vol_ing, K.ergo_voml_ing, K.ergo_fcmax_ing, K.ergo_vol_egr, K.ergo_voml_egr, K.ergo_fcmax_egr, COUNT(K.id_ficha_kine)";
             //query += "FROM Ficha_Kinesiologia K, Ficha F, Paciente Pa Where K.id_ficha = F.id_ficha And F.id_paciente ='" + paciente + "'group by K.ergo_vol_ing, K.ergo_voml_ing, K.ergo_fcmax_ing, K.ergo_vol_egr, K.ergo_voml_egr, K.ergo_fcmax_egr";
 

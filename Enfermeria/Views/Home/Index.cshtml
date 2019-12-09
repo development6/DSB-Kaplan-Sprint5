@@ -41,6 +41,7 @@
         <option value="19">Jose Alejandro Fuentes Silva</option>
         <option value="20">Victor Calderon Encalada</option>
         <option value="21">Sergio Rosales Muñoz</option>
+        <option value="22">Andrea Casas Ugarte</option>
     </select>
     <table id="rblChartType" border="0">
         <tr>
@@ -58,7 +59,7 @@
             <td width="700">
                 <div id="dvChartIndicadores">
                 </div>
-                <!--<div id="dvMensajeKG" align="center"></div>-->
+                <div id="dvMensaje" align="center"></div>
             </td>
             <!--<td width="400">
                 <div id="dvChartMG">
@@ -247,6 +248,15 @@
                     $("#dvChartIndicadores").html("");
                     //$("#dvLegend").html("");
                     //$("#dvTabla").html("");
+                    $("#dvMensaje").html("");
+
+                    if (response[9] == ',' || response[0] == ']') { //response[17]==','
+                        var div = $("<div />");
+                        //div.css("font-size", "18px");
+                        div.html("<p class='caja'>Este paciente no posee datos para mostrar</p>");
+                        $("#dvMensaje").append(div);
+                    };
+
                     var data = eval(response);
                     //var data = (eval("(" + response.d + ")"));
                     var el = document.createElement('canvas');
