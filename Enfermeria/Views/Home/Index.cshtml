@@ -46,7 +46,7 @@
     <table id="rblChartType" border="0">
         <tr>
             <td><input type="radio" name="ChartType" value="1" checked="checked" />Barra</td>
-            <td><input type="radio" name="ChartType" value="2" />Radar</td>
+            <!--<td><input type="radio" name="ChartType" value="2" />Radar</td>-->
         </tr>
     </table>
     <!--<div id="dvChart" style="width:50%; position:relative;">
@@ -647,7 +647,7 @@
     <table id="rblChartType3" border="0">
         <tr>
             <td><input type="radio" name="ChartType3" value="1" checked="checked" />Bar</td>
-            <td><input type="radio" name="ChartType3" value="2" />Radar</td>
+            <!--<td><input type="radio" name="ChartType3" value="2" />Radar</td>-->
             <td><font size="4"><strong> Total pacientes: <font size="4" id="dvTotal"></font></strong></font></td>
         </tr>
     </table>
@@ -746,6 +746,24 @@
                                     title: {
                                         display: true,
                                         text: "Enfermería"
+                                    },
+                                    annotation: {
+                                        events: ['click', 'dblclick', 'mouseover', 'mouseout'],
+                                        annotations: [
+                                            {
+                                                type: 'line',
+                                                mode: 'horizontal',
+                                                scaleID: 'y-axis-0',
+                                                value: 5,
+                                                borderColor: 'rgb(255, 99, 132)',
+                                                borderWidth: 2,
+                                                label: {
+                                                    enabled: true,
+                                                    content: 'Logrado:' + 5
+                                                }
+
+                                            }
+                                        ]
                                     },
                                     scales: {
                                         yAxes: [
